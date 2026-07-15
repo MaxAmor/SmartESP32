@@ -119,12 +119,11 @@ Stats fetchStats() {
 
   HTTPClient http;
   http.setTimeout(10000);
-  http.begin(LEARNHUB_URL);
-  http.addHeader("Authorization", "Bearer " + String(API_TOKEN));
-  http.addHeader("Content-Type", "application/json");
+  String url = String(LEARNHUB_URL) + "?token=" + API_TOKEN;
+  http.begin(url);
 
   int code = http.GET();
-  Serial.printf("[API] GET %s → %d\n", LEARNHUB_URL, code);
+  Serial.printf("[API] GET %s → %d\n", url.c_str(), code);
 
   if (code != 200) {
     gStatus = "HTTP " + String(code);
