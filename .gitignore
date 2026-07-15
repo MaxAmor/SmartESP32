@@ -1,5 +1,5 @@
-# Build artifacts
-.pio/
+# Sensible Daten — nicht committen!
+src/secrets.h
 
 # MiMoCode / AI metadata
 .mimocode/
