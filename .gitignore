@@ -1,0 +1,13 @@
+# Build artifacts
+.pio/
+
+# MiMoCode / AI metadata
+.mimocode/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
