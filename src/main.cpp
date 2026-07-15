@@ -279,8 +279,8 @@ void drawScreen(const Stats& s) {
   tft.setCursor(6, 3);
   tft.print("LearnHub");
 
-  String user = s.username.length() > 10
-    ? s.username.substring(0, 9) + "~" : s.username;
+  String user = s.username.length() > 8
+    ? s.username.substring(0, 7) + "~" : s.username;
   textRight(3, user, C_MUTED, 1);
 
   // ═══ Streak-Card (16–60, 44px) ═════════════════════════════
@@ -331,8 +331,10 @@ void drawScreen(const Stats& s) {
   if (s.levelTitle.length() > 0) {
     tft.setTextSize(1);
     tft.setTextColor(C_GREY);
+    String title = s.levelTitle.length() > 10
+      ? s.levelTitle.substring(0, 9) + "." : s.levelTitle;
     tft.setCursor(40, lvlY + 17); // y=81 .. 89
-    tft.print(s.levelTitle);
+    tft.print(title);
   }
 
   // XP-Balken
@@ -358,21 +360,28 @@ void drawScreen(const Stats& s) {
   tft.drawFastHLine(0, footerY, W, C_DIM);
 
   tft.setTextSize(1);
+
+  // Zeile 1: Heute + Status (rechts)
   tft.setTextColor(C_GREEN);
-  tft.setCursor(6, footerY + 5);  // y=111 .. 119
+  tft.setCursor(6, footerY + 3);
   tft.print("Heute: ");
   tft.print(s.dailyDone);
   tft.print('/');
   tft.print(s.dailyGoal);
 
+  // Status kurz: "Online"→"OK", "Timeout"→"ERR", "HTTP 500"→"500"
+  String st = gStatus;
+  if (st == "Online")      st = "OK";
+  else if (st == "Timeout") st = "ERR";
+  else if (st.startsWith("HTTP ")) st = st.substring(5);
+  textRight(footerY + 3, st, C_GREEN, 1);
+
+  // Zeile 2: Rang
   tft.setTextColor(C_MUTED);
-  tft.setCursor(84, footerY + 5);
+  tft.setCursor(6, footerY + 13);
   tft.print("Rang: ");
   if (s.rank > 0) { tft.print('#'); tft.print(s.rank); }
   else tft.print("--");
-
-  tft.setTextColor(C_GREEN);
-  textRight(footerY + 5, gStatus, C_GREEN, 1);
 }
 
 // ══════════════════════════════════════════════════════════════════
